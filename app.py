@@ -350,6 +350,15 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
                     col1_market_data = col1_market_data.replace(",", "")
                 if (",") in col2_market_data:
                     col2_market_data = col2_market_data.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_market_data:
+                    col1_market_data = col1_market_data.replace("(", "")
+                if (")") in col1_market_data:
+                    col1_market_data = col1_market_data.replace(")", "")
+                if ("(") in col2_market_data:
+                    col2_market_data = col2_market_data.replace("(", "")
+                if (")") in col2_market_data:
+                    col2_market_data = col2_market_data.replace(")", "")
             print("Column 1 market Data after filteration is :",col1_market_data)
             print("Column 2 market Data after filteration is :",col2_market_data)
             cash_eqv_and_marketable_segments_list_column1.append(int(col1_market_data))
@@ -365,43 +374,52 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
     
     print(market_df)
     
-    for restricted_cash in balance_col_values_total_current_assets:
-        if restricted_cash in restricted_cash_list:
-            print("restricted_cash Value Found")
-            index_of_restricted_cash = balance_col_values_total_current_assets.index(restricted_cash)
-            print("The index of {} is {} ".format(restricted_cash,index_of_restricted_cash))
-            col1_restricted_cash_data = data[data.columns[1]].values[index_of_restricted_cash]
-            print("Column 1 restricted_cash Data is :",col1_restricted_cash_data)
-            col2_restricted_cash_data = data[data.columns[2]].values[index_of_restricted_cash]
-            print("Column 1 restricted_cash Data is :",col2_restricted_cash_data)
-             # Checking if the col1 and col2 datatypes are int, float or not
-            if type(col1_restricted_cash_data) in datatype_filtered_list:
-                col1_restricted_cash_data = col1_restricted_cash_data
-            if type(col2_restricted_cash_data) in datatype_filtered_list:
-                col2_restricted_cash_data = col2_restricted_cash_data
-            else:
-                # Cleaning ($ and ,)
-                if ("$") in col1_restricted_cash_data:
-                    col1_restricted_cash_data = col1_restricted_cash_data.replace("$", "")
-                if ("$") in col2_restricted_cash_data:
-                    col2_restricted_cash_data = col2_restricted_cash_data.replace("$", "")
-                if (",") in col1_restricted_cash_data:
-                    col1_restricted_cash_data = col1_restricted_cash_data.replace(",", "")
-                if (",") in col2_restricted_cash_data:
-                    col2_restricted_cash_data = col2_restricted_cash_data.replace(",", "")
-            print("Column 1 restricted_cash Data after filteration is :",col1_restricted_cash_data)
-            print("Column 2 restricted_cash Data after filteration is :",col2_restricted_cash_data)
-            cash_eqv_and_marketable_segments_list_column1.append(int(col1_restricted_cash_data))
-            cash_eqv_and_marketable_segments_list_column2.append(int(col2_restricted_cash_data))
+    # for restricted_cash in balance_col_values_total_current_assets:
+    #     if restricted_cash in restricted_cash_list:
+    #         print("restricted_cash Value Found")
+    #         index_of_restricted_cash = balance_col_values_total_current_assets.index(restricted_cash)
+    #         print("The index of {} is {} ".format(restricted_cash,index_of_restricted_cash))
+    #         col1_restricted_cash_data = data[data.columns[1]].values[index_of_restricted_cash]
+    #         print("Column 1 restricted_cash Data is :",col1_restricted_cash_data)
+    #         col2_restricted_cash_data = data[data.columns[2]].values[index_of_restricted_cash]
+    #         print("Column 1 restricted_cash Data is :",col2_restricted_cash_data)
+    #          # Checking if the col1 and col2 datatypes are int, float or not
+    #         if type(col1_restricted_cash_data) in datatype_filtered_list:
+    #             col1_restricted_cash_data = col1_restricted_cash_data
+    #         if type(col2_restricted_cash_data) in datatype_filtered_list:
+    #             col2_restricted_cash_data = col2_restricted_cash_data
+    #         else:
+    #             # Cleaning ($ and ,)
+    #             if ("$") in col1_restricted_cash_data:
+    #                 col1_restricted_cash_data = col1_restricted_cash_data.replace("$", "")
+    #             if ("$") in col2_restricted_cash_data:
+    #                 col2_restricted_cash_data = col2_restricted_cash_data.replace("$", "")
+    #             if (",") in col1_restricted_cash_data:
+    #                 col1_restricted_cash_data = col1_restricted_cash_data.replace(",", "")
+    #             if (",") in col2_restricted_cash_data:
+    #                 col2_restricted_cash_data = col2_restricted_cash_data.replace(",", "")
+    #             # Updated Add On (Bracket Filteration )  
+    #             if ("(") in col1_restricted_cash_data:
+    #                 col1_restricted_cash_data = col1_restricted_cash_data.replace("(", "")
+    #             if (")") in col1_restricted_cash_data:
+    #                 col1_restricted_cash_data = col1_restricted_cash_data.replace(")", "")
+    #             if ("(") in col2_restricted_cash_data:
+    #                 col2_restricted_cash_data = col2_restricted_cash_data.replace("(", "")
+    #             if (")") in col2_restricted_cash_data:
+    #                 col2_restricted_cash_data = col2_restricted_cash_data.replace(")", "")
+    #         print("Column 1 restricted_cash Data after filteration is :",col1_restricted_cash_data)
+    #         print("Column 2 restricted_cash Data after filteration is :",col2_restricted_cash_data)
+    #         cash_eqv_and_marketable_segments_list_column1.append(int(col1_restricted_cash_data))
+    #         cash_eqv_and_marketable_segments_list_column2.append(int(col2_restricted_cash_data))
     
     
-    # balance_col_values_total_current_assets
-    restricted_cash_df = pd.DataFrame({data.columns.values[0]:["Filtered restricted_cash data"],
-            data.columns[1]: col1_restricted_cash_data,
-            data.columns[2]:col2_restricted_cash_data
-            })
+    # # balance_col_values_total_current_assets
+    # restricted_cash_df = pd.DataFrame({data.columns.values[0]:["Filtered restricted_cash data"],
+    #         data.columns[1]: col1_restricted_cash_data,
+    #         data.columns[2]:col2_restricted_cash_data
+    #         })
     
-    print(restricted_cash_df)
+    # print(restricted_cash_df)
     
     
     # getting all of the values out of the first index
@@ -431,6 +449,15 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
                     col1_cash_data = col1_cash_data.replace(",", "")
                 if (",") in col2_cash_data:
                     col2_cash_data = col2_cash_data.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_cash_data:
+                    col1_cash_data = col1_cash_data.replace("(", "")
+                if (")") in col1_cash_data:
+                    col1_cash_data = col1_cash_data.replace(")", "")
+                if ("(") in col2_cash_data:
+                    col2_cash_data = col2_cash_data.replace("(", "")
+                if (")") in col2_cash_data:
+                    col2_cash_data = col2_cash_data.replace(")", "")
             print("Column 1 Cash Data after filteration is :",col1_cash_data)
             print("Column 2 Cash Data after filteration is :",col2_cash_data)
             cash_eqv_and_marketable_segments_list_column1.append(int(col1_cash_data))
@@ -444,10 +471,11 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
     
     
     cash_and_market_df = pd.DataFrame({data.columns.values[0]:["Cash Equivalents & Marketable Sec"],
-                                       data.columns[1]: sum(cash_eqv_and_marketable_segments_list_column1),
-                                       data.columns[2]: sum(cash_eqv_and_marketable_segments_list_column2)
+                                       data.columns[1]: [sum(cash_eqv_and_marketable_segments_list_column1)],
+                                       data.columns[2]: [sum(cash_eqv_and_marketable_segments_list_column2)]
                                        })
     
+    print("cash_and_market_df is.....", cash_and_market_df)
     
     """
     Rights-of-use relating to leases
@@ -475,7 +503,15 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
                 col1_rights_of_use_relating_leases_data = col1_rights_of_use_relating_leases_data.replace(",", "")
             if (",") in col2_rights_of_use_relating_leases_data:
                 col2_rights_of_use_relating_leases_data = col2_rights_of_use_relating_leases_data.replace(",", "")
-            
+            # Updated Add On (Bracket Filteration )  
+            if ("(") in col1_rights_of_use_relating_leases_data:
+                col1_rights_of_use_relating_leases_data = col1_rights_of_use_relating_leases_data.replace("(", "")
+            if (")") in col1_rights_of_use_relating_leases_data:
+                col1_rights_of_use_relating_leases_data = col1_rights_of_use_relating_leases_data.replace(")", "")
+            if ("(") in col2_rights_of_use_relating_leases_data:
+                col2_rights_of_use_relating_leases_data = col2_rights_of_use_relating_leases_data.replace("(", "")
+            if (")") in col2_rights_of_use_relating_leases_data:
+                col2_rights_of_use_relating_leases_data = col2_rights_of_use_relating_leases_data.replace(")", "")
             col1_rights_of_use_relating_leases_data_list.append(int(col1_rights_of_use_relating_leases_data))
             col2_rights_of_use_relating_leases_data_list.append(int(col2_rights_of_use_relating_leases_data))
             print("Column 1 rights_of_use_relating_leases Data after filteration is :",col1_rights_of_use_relating_leases_data_list)
@@ -536,6 +572,15 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
                     col1_inventories_data = col1_inventories_data.replace(",", "")
                 if (",") in col2_inventories_data:
                     col2_inventories_data = col2_inventories_data.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_inventories_data:
+                    col1_inventories_data = col1_inventories_data.replace("(", "")
+                if (")") in col1_inventories_data:
+                    col1_inventories_data = col1_inventories_data.replace(")", "")
+                if ("(") in col2_inventories_data:
+                    col2_inventories_data = col2_inventories_data.replace("(", "")
+                if (")") in col2_inventories_data:
+                    col2_inventories_data = col2_inventories_data.replace(")", "")
             col1_inventories_data_list.append(int(col1_inventories_data))
             col2_inventories_data_list.append(int(col2_inventories_data))
             print("Column 1 inventories Data after filteration is :",col1_inventories_data_list)
@@ -596,38 +641,57 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
                     col1_account_data = col1_account_data.replace(",", "")
                 if (",") in col2_account_data:
                     col2_account_data = col2_account_data.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_account_data:
+                    col1_account_data = col1_account_data.replace("(", "")
+                if (")") in col1_account_data:
+                    col1_account_data = col1_account_data.replace(")", "")
+                if ("(") in col2_account_data:
+                    col2_account_data = col2_account_data.replace("(", "")
+                if (")") in col2_account_data:
+                    col2_account_data = col2_account_data.replace(")", "")
             col1_account_data_list.append(int(col1_account_data))
             col2_account_data_list.append(int(col2_account_data))
             print("Column 1 account Data after filteration is :",col1_account_data_list)
             print("Column 2 account Data after filteration is :",col2_account_data_list)
-        
-        elif "trade receivable" in account:
-        # if account in accounts_list:
-            print("Account value is :", account)
-            print("account value found")
-            index_of_account = balance_col_values_total_current_assets.index(account)
-            print("The index of {} is {} ".format(account,index_of_account))
-            col1_account_data = data[data.columns[1]].values[index_of_account]
-            col2_account_data = data[data.columns[2]].values[index_of_account]
-            # Checking if the col1 and col2 datatypes are int, float or not
-            if type(col1_account_data) in datatype_filtered_list:
-                col1_account_data = col1_account_data
-            if type(col2_account_data) in datatype_filtered_list:
-                col2_account_data = col2_account_data
-            else:            
-                # Cleaning ($ and ,)
-                if ("$") in col1_account_data:
-                    col1_account_data = col1_account_data.replace("$", "")
-                if ("$") in col2_account_data:
-                    col2_account_data = col2_account_data.replace("$", "")
-                if (",") in col1_account_data:
-                    col1_account_data = col1_account_data.replace(",", "")
-                if (",") in col2_account_data:
-                    col2_account_data = col2_account_data.replace(",", "")
-            col1_account_data_list.append(int(col1_account_data))
-            col2_account_data_list.append(int(col2_account_data))
-            print("Column 1 account Data after filteration is :",col1_account_data_list)
-            print("Column 2 account Data after filteration is :",col2_account_data_list)
+        # Keyword based Filteration for Non-Trade-Recievable
+        elif "non-trade receivable" not in account:
+            if "trade receivable" in account:
+            # if account in accounts_list:
+                print("Account value is :", account)
+                print("account value found")
+                index_of_account = balance_col_values_total_current_assets.index(account)
+                print("The index of {} is {} ".format(account,index_of_account))
+                col1_account_data = data[data.columns[1]].values[index_of_account]
+                col2_account_data = data[data.columns[2]].values[index_of_account]
+                # Checking if the col1 and col2 datatypes are int, float or not
+                if type(col1_account_data) in datatype_filtered_list:
+                    col1_account_data = col1_account_data
+                if type(col2_account_data) in datatype_filtered_list:
+                    col2_account_data = col2_account_data
+                else:            
+                    # Cleaning ($ and ,)
+                    if ("$") in col1_account_data:
+                        col1_account_data = col1_account_data.replace("$", "")
+                    if ("$") in col2_account_data:
+                        col2_account_data = col2_account_data.replace("$", "")
+                    if (",") in col1_account_data:
+                        col1_account_data = col1_account_data.replace(",", "")
+                    if (",") in col2_account_data:
+                        col2_account_data = col2_account_data.replace(",", "")
+                    # Updated Add On (Bracket Filteration )  
+                    if ("(") in col1_account_data:
+                        col1_account_data = col1_account_data.replace("(", "")
+                    if (")") in col1_account_data:
+                        col1_account_data = col1_account_data.replace(")", "")
+                    if ("(") in col2_account_data:
+                        col2_account_data = col2_account_data.replace("(", "")
+                    if (")") in col2_account_data:
+                        col2_account_data = col2_account_data.replace(")", "")
+                col1_account_data_list.append(int(col1_account_data))
+                col2_account_data_list.append(int(col2_account_data))
+                print("Column 1 account Data after filteration is :",col1_account_data_list)
+                print("Column 2 account Data after filteration is :",col2_account_data_list)
     
     if (len(col1_account_data_list) > 1):
         col1_account_data_list = sum(col1_account_data_list)
@@ -686,11 +750,20 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
                     col1_other_receivables_data = col1_other_receivables_data.replace(",", "")
                 if (",") in col2_other_receivables_data:
                     col2_other_receivables_data = col2_other_receivables_data.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_other_receivables_data:
+                    col1_other_receivables_data = col1_other_receivables_data.replace("(", "")
+                if (")") in col1_other_receivables_data:
+                    col1_other_receivables_data = col1_other_receivables_data.replace(")", "")
+                if ("(") in col2_other_receivables_data:
+                    col2_other_receivables_data = col2_other_receivables_data.replace("(", "")
+                if (")") in col2_other_receivables_data:
+                    col2_other_receivables_data = col2_other_receivables_data.replace(")", "")
             col1_other_receivables_data_list.append(int(col1_other_receivables_data))
             col2_other_receivables_data_list.append(int(col2_other_receivables_data))
             print("Column 1 aother_receivables Data after filteration is :",col1_other_receivables_data_list)
-            print("Column 2 aother_receivables Data after filteration is :",col1_other_receivables_data_list)
-    
+            print("Column 2 aother_receivables Data after filteration is :",col2_other_receivables_data_list)
+
     
     if (len(col1_other_receivables_data_list) > 1):
         col1_other_receivables_data_list = sum(col1_other_receivables_data_list)
@@ -724,7 +797,8 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
     print("other_receivables_df[data.columns[1]]",other_receivables_df[data.columns[2]][0])
     col1_total_accounts_and_trades_data = int(account_df[data.columns[1]][0]) + int(other_receivables_df[data.columns[1]][0])
     col2_total_accounts_and_trades_data = int(account_df[data.columns[2]][0]) + int(other_receivables_df[data.columns[2]][0])
-    
+    print("col1_total_accounts_and_trades_data :", col1_total_accounts_and_trades_data)
+    print("col2_total_accounts_and_trades_data :", col2_total_accounts_and_trades_data)
     try:
         total_accounts_df = pd.DataFrame({data.columns.values[0]:["Accounts/Trade Receivables(Total)"],
                                     data.columns[1]: [sum(col1_total_accounts_and_trades_data)],
@@ -767,6 +841,15 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
                     col1_tax_data = col1_tax_data.replace(",", "")
                 if (",") in col2_tax_data:
                     col2_tax_data = col2_tax_data.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_tax_data:
+                    col1_tax_data = col1_tax_data.replace("(", "")
+                if (")") in col1_tax_data:
+                    col1_tax_data = col1_tax_data.replace(")", "")
+                if ("(") in col2_tax_data:
+                    col2_tax_data = col2_tax_data.replace("(", "")
+                if (")") in col2_tax_data:
+                    col2_tax_data = col2_tax_data.replace(")", "")
             col1_tax_data_list.append(int(col1_tax_data))
             col2_tax_data_list.append(int(col2_tax_data))        
             print("Column 1 tax Data after filteration is :",col1_tax_data_list)
@@ -830,6 +913,15 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
                     col1_prepaid_expenses_data = col1_prepaid_expenses_data.replace(",", "")
                 if "," in col2_prepaid_expenses_data:
                     col2_prepaid_expenses_data = col2_prepaid_expenses_data.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_prepaid_expenses_data:
+                    col1_prepaid_expenses_data = col1_prepaid_expenses_data.replace("(", "")
+                if (")") in col1_prepaid_expenses_data:
+                    col1_prepaid_expenses_data = col1_prepaid_expenses_data.replace(")", "")
+                if ("(") in col2_prepaid_expenses_data:
+                    col2_prepaid_expenses_data = col2_prepaid_expenses_data.replace("(", "")
+                if (")") in col2_prepaid_expenses_data:
+                    col2_prepaid_expenses_data = col2_prepaid_expenses_data.replace(")", "")
             col1_prepaid_expenses_data_list.append(int(col1_prepaid_expenses_data))
             col2_prepaid_expenses_data_list.append(int(col2_prepaid_expenses_data))
             print("Column 1 prepaid expenses data after filtration is:", col1_prepaid_expenses_data_list)
@@ -882,6 +974,8 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
             col2_other_current_assets_data = data[data.columns[2]].values[index_of_other_current_assets]
             print("Column 2 other_current_assets data is:", col2_other_current_assets_data)
             # Checking if the col1 and col2 datatypes are int, float or not
+            print("Starting Debug after Column 2 other_current_assets......... 15082023 log")
+            
             if type(col1_other_current_assets_data) in datatype_filtered_list:
                 col1_other_current_assets_data = col1_other_current_assets_data
             if type(col2_other_current_assets_data) in datatype_filtered_list:
@@ -896,6 +990,15 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
                     col1_other_current_assets_data = col1_other_current_assets_data.replace(",", "")
                 if "," in col2_other_current_assets_data:
                     col2_other_current_assets_data = col2_other_current_assets_data.replace(",", "")
+                # # Updated Add On (Bracket Filteration )  
+                # if ("(") in col1_other_current_assets_data:
+                #     col1_other_current_assets_data = col1_other_current_assets_data.replace("(", "")
+                # if (")") in col1_other_current_assets_data:
+                #     col1_other_current_assets_data = col1_other_current_assets_data.replace(")", "")
+                # if ("(") in col2_other_current_assets_data:
+                #     col2_other_current_assets_data = col2_other_current_assets_data.replace("(", "")
+                # if (")") in col2_other_current_assets_data:
+                #     col2_other_current_assets_data = col2_other_current_assets_data.replace(")", "")
             col1_other_current_assets_list.append(int(col1_other_current_assets_data))
             col2_other_current_assets_list.append(int(col1_other_current_assets_data))
             print("Column 1 other_current_assets data after filtration is:", col1_other_current_assets_list)
@@ -929,6 +1032,12 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
                                         })
     
     print("other_current_assets_df",other_current_assets_df)
+    print("Debug Successful for Column 2 other_current_assets......... 15082023 log")
+    
+    
+    
+    
+    
     current_assets_df = pd.concat([cash_and_market_df,
                                     rights_of_use_relating_leases_df,
                                     total_accounts_df,
@@ -997,6 +1106,15 @@ def get_stabnderdized_total_current_assets_data(database_data,data):
                     col1_total_current_assets_data = col1_total_current_assets_data.replace(",", "")
                 if "," in col2_total_current_assets_data:
                     col2_total_current_assets_data = col2_total_current_assets_data.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_total_current_assets_data:
+                    col1_total_current_assets_data = col1_total_current_assets_data.replace("(", "")
+                if (")") in col1_total_current_assets_data:
+                    col1_total_current_assets_data = col1_total_current_assets_data.replace(")", "")
+                if ("(") in col2_total_current_assets_data:
+                    col2_total_current_assets_data = col2_total_current_assets_data.replace("(", "")
+                if (")") in col2_total_current_assets_data:
+                    col2_total_current_assets_data = col2_total_current_assets_data.replace(")", "")
             
             col1_total_current_assets_list.append(int(col1_total_current_assets_data))
             col2_total_current_assets_list.append(int(col2_total_current_assets_data))
@@ -1208,6 +1326,15 @@ def get_stabnderdized_total_long_term_assets_data(database_data,data):
                     col1_rights_data = col1_rights_data.replace(",", "")
                 if (",") in col2_rights_data:
                     col2_rights_data = col2_rights_data.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_rights_data:
+                    col1_rights_data = col1_rights_data.replace("(", "")
+                if (")") in col1_rights_data:
+                    col1_rights_data = col1_rights_data.replace(")", "")
+                if ("(") in col2_rights_data:
+                    col2_rights_data = col2_rights_data.replace("(", "")
+                if (")") in col2_rights_data:
+                    col2_rights_data = col2_rights_data.replace(")", "")
             print("Column 1 rights_data after filteration is :",col1_rights_data)
             print("Column 2 rights_data after filteration is :",col2_rights_data)
             rights_data_list_column1.append(int(col1_rights_data))
@@ -1274,6 +1401,15 @@ def get_stabnderdized_total_long_term_assets_data(database_data,data):
                         col1_net_property_data = col1_net_property_data.replace(",", "")
                     if (",") in col2_net_property_data:
                         col2_net_property_data = col2_net_property_data.replace(",", "")
+                    # Updated Add On (Bracket Filteration )  
+                    if ("(") in col1_net_property_data:
+                        col1_net_property_data = col1_net_property_data.replace("(", "")
+                    if (")") in col1_net_property_data:
+                        col1_net_property_data = col1_net_property_data.replace(")", "")
+                    if ("(") in col2_net_property_data:
+                        col2_net_property_data = col2_net_property_data.replace("(", "")
+                    if (")") in col2_net_property_data:
+                        col2_net_property_data = col2_net_property_data.replace(")", "")
                 print("Column 1 net_property_data after filteration is :",col1_net_property_data)
                 print("Column 2 net_property_data after filteration is :",col2_net_property_data)
                 net_property_data_list_column1.append(int(col1_net_property_data))
@@ -1354,6 +1490,15 @@ def get_stabnderdized_total_long_term_assets_data(database_data,data):
                         col1_real_estate_assets = col1_real_estate_assets.replace(",", "")
                     if "," in col2_real_estate_assets:
                         col2_real_estate_assets = col2_real_estate_assets.replace(",", "")
+                    # Updated Add On (Bracket Filteration )  
+                    if ("(") in col1_real_estate_assets:
+                        col1_real_estate_assets = col1_real_estate_assets.replace("(", "")
+                    if (")") in col1_real_estate_assets:
+                        col1_real_estate_assets = col1_real_estate_assets.replace(")", "")
+                    if ("(") in col2_real_estate_assets:
+                        col2_real_estate_assets = col2_real_estate_assets.replace("(", "")
+                    if (")") in col2_real_estate_assets:
+                        col2_real_estate_assets = col2_real_estate_assets.replace(")", "")
                 print("Column 1 real_estate_assets after filtration is:", col1_real_estate_assets)
                 print("Column 2 real_estate_assets after filtration is:", col2_real_estate_assets)
                 real_estate_assets_list_column1.append(int(col1_real_estate_assets))
@@ -1420,6 +1565,15 @@ def get_stabnderdized_total_long_term_assets_data(database_data,data):
                     col1_investments_and_other_assets = col1_investments_and_other_assets.replace(",", "")
                 if "," in col2_investments_and_other_assets:
                     col2_investments_and_other_assets = col2_investments_and_other_assets.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_investments_and_other_assets:
+                    col1_investments_and_other_assets = col1_investments_and_other_assets.replace("(", "")
+                if (")") in col1_investments_and_other_assets:
+                    col1_investments_and_other_assets = col1_investments_and_other_assets.replace(")", "")
+                if ("(") in col2_investments_and_other_assets:
+                    col2_investments_and_other_assets = col2_investments_and_other_assets.replace("(", "")
+                if (")") in col2_investments_and_other_assets:
+                    col2_investments_and_other_assets = col2_investments_and_other_assets.replace(")", "")
             print("Column 1 investments_and_other_assets after filtration is:", col1_investments_and_other_assets)
             print("Column 2 investments_and_other_assets after filtration is:", col2_investments_and_other_assets)
             investments_and_other_assets_list_column1.append(int(col1_investments_and_other_assets))
@@ -1485,6 +1639,15 @@ def get_stabnderdized_total_long_term_assets_data(database_data,data):
                     col1_investments_and_other_companies = col1_investments_and_other_companies.replace(",", "")
                 if "," in col2_investments_and_other_companies:
                     col2_investments_and_other_companies = col2_investments_and_other_companies.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_investments_and_other_companies:
+                    col1_investments_and_other_companies = col1_investments_and_other_companies.replace("(", "")
+                if (")") in col1_investments_and_other_companies:
+                    col1_investments_and_other_companies = col1_investments_and_other_companies.replace(")", "")
+                if ("(") in col2_investments_and_other_companies:
+                    col2_investments_and_other_companies = col2_investments_and_other_companies.replace("(", "")
+                if (")") in col2_investments_and_other_companies:
+                    col2_investments_and_other_companies = col2_investments_and_other_companies.replace(")", "")
             print("Column 1 investments_and_other_companies after filtration is:", col1_investments_and_other_companies)
             print("Column 2 investments_and_other_companies after filtration is:", col2_investments_and_other_companies)
             investments_and_other_companies_list_column1.append(int(col1_investments_and_other_companies))
@@ -1549,6 +1712,15 @@ def get_stabnderdized_total_long_term_assets_data(database_data,data):
                     col1_pensions_assets = col1_pensions_assets.replace(",", "")
                 if "," in col2_pensions_assets:
                     col2_pensions_assets = col2_pensions_assets.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_pensions_assets:
+                    col1_pensions_assets = col1_pensions_assets.replace("(", "")
+                if (")") in col1_pensions_assets:
+                    col1_pensions_assets = col1_pensions_assets.replace(")", "")
+                if ("(") in col2_pensions_assets:
+                    col2_pensions_assets = col2_pensions_assets.replace("(", "")
+                if (")") in col2_pensions_assets:
+                    col2_pensions_assets = col2_pensions_assets.replace(")", "")
             print("Column 1 pensions_assets after filtration is:", col1_pensions_assets)
             print("Column 2 pensions_assets after filtration is:", col2_pensions_assets)
             pensions_assets_list_column1.append(int(col1_pensions_assets))
@@ -1612,6 +1784,15 @@ def get_stabnderdized_total_long_term_assets_data(database_data,data):
                     col1_goodwill = col1_goodwill.replace(",", "")
                 if "," in col2_goodwill:
                     col2_goodwill = col2_goodwill.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_goodwill:
+                    col1_goodwill = col1_goodwill.replace("(", "")
+                if (")") in col1_goodwill:
+                    col1_goodwill = col1_goodwill.replace(")", "")
+                if ("(") in col2_goodwill:
+                    col2_goodwill = col2_goodwill.replace("(", "")
+                if (")") in col2_goodwill:
+                    col2_goodwill = col2_goodwill.replace(")", "")
             print("Column 1 goodwill after filtration is:", col1_goodwill)
             print("Column 2 goodwill after filtration is:", col2_goodwill)
             goodwill_list_column1.append(int(col1_goodwill))
@@ -1674,6 +1855,15 @@ def get_stabnderdized_total_long_term_assets_data(database_data,data):
                     col1_indefinite_lived_and_amortizable_intangible_assets = col1_indefinite_lived_and_amortizable_intangible_assets.replace(",", "")
                 if "," in col2_indefinite_lived_and_amortizable_intangible_assets:
                     col2_indefinite_lived_and_amortizable_intangible_assets = col2_indefinite_lived_and_amortizable_intangible_assets.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_goodwill:
+                    col1_goodwill = col1_goodwill.replace("(", "")
+                if (")") in col1_goodwill:
+                    col1_goodwill = col1_goodwill.replace(")", "")
+                if ("(") in col2_goodwill:
+                    col2_goodwill = col2_goodwill.replace("(", "")
+                if (")") in col2_goodwill:
+                    col2_goodwill = col2_goodwill.replace(")", "")
             print("Column 1 indefinite_lived_and_amortizable_intangible_assets after filtration is:", col1_indefinite_lived_and_amortizable_intangible_assets)
             print("Column 2 indefinite_lived_and_amortizable_intangible_assets after filtration is:", col2_indefinite_lived_and_amortizable_intangible_assets)
             indefinite_lived_and_amortizable_intangible_assets_list_column1.append(int(col1_indefinite_lived_and_amortizable_intangible_assets))
@@ -1736,6 +1926,15 @@ def get_stabnderdized_total_long_term_assets_data(database_data,data):
                     col1_deferred_income_taxes = col1_deferred_income_taxes.replace(",", "")
                 if "," in col2_deferred_income_taxes:
                     col2_deferred_income_taxes = col2_deferred_income_taxes.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_deferred_income_taxes:
+                    col1_deferred_income_taxes = col1_deferred_income_taxes.replace("(", "")
+                if (")") in col1_deferred_income_taxes:
+                    col1_deferred_income_taxes = col1_deferred_income_taxes.replace(")", "")
+                if ("(") in col2_deferred_income_taxes:
+                    col2_deferred_income_taxes = col2_deferred_income_taxes.replace("(", "")
+                if (")") in col2_deferred_income_taxes:
+                    col2_deferred_income_taxes = col2_deferred_income_taxes.replace(")", "")
             print("Column 1 deferred_income_taxes after filtration is:", col1_deferred_income_taxes)
             print("Column 2 deferred_income_taxes after filtration is:", col2_deferred_income_taxes)
             deferred_income_taxes_list_column1.append(int(col1_deferred_income_taxes))
@@ -1798,6 +1997,15 @@ def get_stabnderdized_total_long_term_assets_data(database_data,data):
                     col1_total_intangible_and_other_assets = col1_total_intangible_and_other_assets.replace(",", "")
                 if "," in col2_total_intangible_and_other_assets:
                     col2_total_intangible_and_other_assets = col2_total_intangible_and_other_assets.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_total_intangible_and_other_assets:
+                    col1_total_intangible_and_other_assets = col1_total_intangible_and_other_assets.replace("(", "")
+                if (")") in col1_total_intangible_and_other_assets:
+                    col1_total_intangible_and_other_assets = col1_total_intangible_and_other_assets.replace(")", "")
+                if ("(") in col2_total_intangible_and_other_assets:
+                    col2_total_intangible_and_other_assets = col2_total_intangible_and_other_assets.replace("(", "")
+                if (")") in col2_total_intangible_and_other_assets:
+                    col2_total_intangible_and_other_assets = col2_total_intangible_and_other_assets.replace(")", "")
             print("Column 1 total_intangible_and_other_assets after filtration is:", col1_total_intangible_and_other_assets)
             print("Column 2 total_intangible_and_other_assets after filtration is:", col2_total_intangible_and_other_assets)
             total_intangible_and_other_assets_list_column1.append(int(col1_total_intangible_and_other_assets))
@@ -1862,6 +2070,15 @@ def get_stabnderdized_total_long_term_assets_data(database_data,data):
                     col1_assets_for_discontinued_business = col1_assets_for_discontinued_business.replace(",", "")
                 if "," in col2_assets_for_discontinued_business:
                     col2_assets_for_discontinued_business = col2_assets_for_discontinued_business.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_assets_for_discontinued_business:
+                    col1_assets_for_discontinued_business = col1_assets_for_discontinued_business.replace("(", "")
+                if (")") in col1_assets_for_discontinued_business:
+                    col1_assets_for_discontinued_business = col1_assets_for_discontinued_business.replace(")", "")
+                if ("(") in col2_assets_for_discontinued_business:
+                    col2_assets_for_discontinued_business = col2_assets_for_discontinued_business.replace("(", "")
+                if (")") in col2_assets_for_discontinued_business:
+                    col2_assets_for_discontinued_business = col2_assets_for_discontinued_business.replace(")", "")
             print("Column 1 assets_for_discontinued_business after filtration is:", col1_assets_for_discontinued_business)
             print("Column 2 assets_for_discontinued_business after filtration is:", col2_assets_for_discontinued_business)
             assets_for_discontinued_business_list_column1.append(int(col1_assets_for_discontinued_business))
@@ -1928,6 +2145,15 @@ def get_stabnderdized_total_long_term_assets_data(database_data,data):
                     col1_total_long_term_assets = col1_total_long_term_assets.replace(",", "")
                 if "," in col2_total_long_term_assets:
                     col2_total_long_term_assets = col2_total_long_term_assets.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_total_long_term_assets:
+                    col1_total_long_term_assets = col1_total_long_term_assets.replace("(", "")
+                if (")") in col1_total_long_term_assets:
+                    col1_total_long_term_assets = col1_total_long_term_assets.replace(")", "")
+                if ("(") in col2_total_long_term_assets:
+                    col2_total_long_term_assets = col2_total_long_term_assets.replace("(", "")
+                if (")") in col2_total_long_term_assets:
+                    col2_total_long_term_assets = col2_total_long_term_assets.replace(")", "")
             print("Column 1 total_long_term_assets after filtration is:", col1_total_long_term_assets)
             print("Column 2 total_long_term_assets after filtration is:", col2_total_long_term_assets)
             total_long_term_assets_list_column1.append(int(col1_total_long_term_assets))
@@ -2161,6 +2387,15 @@ def get_total_assets_data(current_assets_standerdised_data,long_term_assets_stan
                         col1_total_assets = col1_total_assets.replace(",", "")
                     if "," in col2_total_assets:
                         col2_total_assets = col2_total_assets.replace(",", "")
+                    # Updated Add On (Bracket Filteration )  
+                    if ("(") in col1_total_assets:
+                        col1_total_assets = col1_total_assets.replace("(", "")
+                    if (")") in col1_total_assets:
+                        col1_total_assets = col1_total_assets.replace(")", "")
+                    if ("(") in col2_total_assets:
+                        col2_total_assets = col2_total_assets.replace("(", "")
+                    if (")") in col2_total_assets:
+                        col2_total_assets = col2_total_assets.replace(")", "")
                 print("Column 1 total_assets after filtration is:", col1_total_assets)
                 print("Column 2 total_assets after filtration is:", col2_total_assets)
                 total_assets_list_column1.append(int(col1_total_assets))
@@ -2456,7 +2691,15 @@ def get_stabnderdized_total_current_liabilities_data(database_data,data):
                     col1_current_portion_operating_lease_liability = col1_current_portion_operating_lease_liability.replace(",", "")
                 if "," in col2_current_portion_operating_lease_liability:
                     col2_current_portion_operating_lease_liability = col2_current_portion_operating_lease_liability.replace(",", "")
-
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_current_portion_operating_lease_liability:
+                    col1_current_portion_operating_lease_liability = col1_current_portion_operating_lease_liability.replace("(", "")
+                if (")") in col1_current_portion_operating_lease_liability:
+                    col1_current_portion_operating_lease_liability = col1_current_portion_operating_lease_liability.replace(")", "")
+                if ("(") in col2_current_portion_operating_lease_liability:
+                    col2_current_portion_operating_lease_liability = col2_current_portion_operating_lease_liability.replace("(", "")
+                if (")") in col2_current_portion_operating_lease_liability:
+                    col2_current_portion_operating_lease_liability = col2_current_portion_operating_lease_liability.replace(")", "")
             print("Column 1 current_portion_operating_lease_liability after filtration is:", col1_current_portion_operating_lease_liability)
             print("Column 2 current_portion_operating_lease_liability after filtration is:", col2_current_portion_operating_lease_liability)
             current_portion_operating_lease_liability_col1.append(int(col1_current_portion_operating_lease_liability))
@@ -2535,7 +2778,15 @@ def get_stabnderdized_total_current_liabilities_data(database_data,data):
                     col1_accounts_payable = col1_accounts_payable.replace(",", "")
                 if "," in col2_accounts_payable:
                     col2_accounts_payable = col2_accounts_payable.replace(",", "")
-
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_accounts_payable:
+                    col1_accounts_payable = col1_accounts_payable.replace("(", "")
+                if (")") in col1_accounts_payable:
+                    col1_accounts_payable = col1_accounts_payable.replace(")", "")
+                if ("(") in col2_accounts_payable:
+                    col2_accounts_payable = col2_accounts_payable.replace("(", "")
+                if (")") in col2_accounts_payable:
+                    col2_accounts_payable = col2_accounts_payable.replace(")", "")
             print("Column 1 Accounts payable after filtration is:", col1_accounts_payable)
             print("Column 2 Accounts payable after filtration is:", col2_accounts_payable)
             accounts_payable_col1.append(int(col1_accounts_payable))
@@ -2611,6 +2862,15 @@ def get_stabnderdized_total_current_liabilities_data(database_data,data):
                     col1_accrued_liabilities = col1_accrued_liabilities.replace(",", "")
                 if "," in col2_accrued_liabilities:
                     col2_accrued_liabilities = col2_accrued_liabilities.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_accrued_liabilities:
+                    col1_accrued_liabilities = col1_accrued_liabilities.replace("(", "")
+                if (")") in col1_accrued_liabilities:
+                    col1_accrued_liabilities = col1_accrued_liabilities.replace(")", "")
+                if ("(") in col2_accrued_liabilities:
+                    col2_accrued_liabilities = col2_accrued_liabilities.replace("(", "")
+                if (")") in col2_accounts_payable:
+                    col2_accrued_liabilities = col2_accrued_liabilities.replace(")", "")
 
             print("Column 1 Accrued liabilities after filtration is:", col1_accrued_liabilities)
             print("Column 2 Accrued liabilities after filtration is:", col2_accrued_liabilities)
@@ -2683,6 +2943,15 @@ def get_stabnderdized_total_current_liabilities_data(database_data,data):
                     col1_income_taxes_payable = col1_income_taxes_payable.replace(",", "")
                 if "," in col2_income_taxes_payable:
                     col2_income_taxes_payable = col2_income_taxes_payable.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_income_taxes_payable:
+                    col1_income_taxes_payable = col1_income_taxes_payable.replace("(", "")
+                if (")") in col1_income_taxes_payable:
+                    col1_income_taxes_payable = col1_income_taxes_payable.replace(")", "")
+                if ("(") in col1_income_taxes_payable:
+                    col1_income_taxes_payable = col1_income_taxes_payable.replace("(", "")
+                if (")") in col1_income_taxes_payable:
+                    col1_income_taxes_payable = col1_income_taxes_payable.replace(")", "")
 
             print("Column 1 Income taxes payable after filtration is:", col1_income_taxes_payable)
             print("Column 2 Income taxes payable after filtration is:", col2_income_taxes_payable)
@@ -2756,6 +3025,15 @@ def get_stabnderdized_total_current_liabilities_data(database_data,data):
                     col1_deferred_income = col1_deferred_income.replace(",", "")
                 if "," in col2_deferred_income:
                     col2_deferred_income = col2_deferred_income.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_deferred_income:
+                    col1_deferred_income = col1_deferred_income.replace("(", "")
+                if (")") in col1_deferred_income:
+                    col1_deferred_income = col1_deferred_income.replace(")", "")
+                if ("(") in col2_deferred_income:
+                    col2_deferred_income = col2_deferred_income.replace("(", "")
+                if (")") in col2_deferred_income:
+                    col2_deferred_income = col2_deferred_income.replace(")", "")
 
             print("Column 1 deferred_income after filtration is:", col1_deferred_income)
             print("Column 2 deferred_income after filtration is:", col2_deferred_income)
@@ -2831,6 +3109,15 @@ def get_stabnderdized_total_current_liabilities_data(database_data,data):
                     col1_contracts_payable = col1_contracts_payable.replace(",", "")
                 if "," in col2_contracts_payable:
                     col2_contracts_payable = col2_contracts_payable.replace(",", "")
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_contracts_payable:
+                    col1_contracts_payable = col1_contracts_payable.replace("(", "")
+                if (")") in col1_contracts_payable:
+                    col1_contracts_payable = col1_contracts_payable.replace(")", "")
+                if ("(") in col2_contracts_payable:
+                    col2_contracts_payable = col2_contracts_payable.replace("(", "")
+                if (")") in col2_contracts_payable:
+                    col2_contracts_payable = col2_contracts_payable.replace(")", "")
 
             print("Column 1 Contracts payable for programming rights after filtration is:", col1_contracts_payable)
             print("Column 2 Contracts payable for programming rights after filtration is:", col2_contracts_payable)
@@ -2903,7 +3190,15 @@ def get_stabnderdized_total_current_liabilities_data(database_data,data):
                     col1_total_current_liabilities = col1_total_current_liabilities.replace(",", "")
                 if "," in col2_total_current_liabilities:
                     col2_total_current_liabilities = col2_total_current_liabilities.replace(",", "")
-
+                # Updated Add On (Bracket Filteration )  
+                if ("(") in col1_total_current_liabilities:
+                    col1_total_current_liabilities = col1_total_current_liabilities.replace("(", "")
+                if (")") in col1_total_current_liabilities:
+                    col1_total_current_liabilities = col1_total_current_liabilities.replace(")", "")
+                if ("(") in col2_total_current_liabilities:
+                    col2_total_current_liabilities = col2_total_current_liabilities.replace("(", "")
+                if (")") in col2_total_current_liabilities:
+                    col2_total_current_liabilities = col2_total_current_liabilities.replace(")", "")
             print("Column 1 Total current liabilities after filtration is:", col1_total_current_liabilities)
             print("Column 2 Total current liabilities after filtration is:", col2_total_current_liabilities)
             total_current_liabilities_col1.append(int(col1_total_current_liabilities))
@@ -2992,6 +3287,14 @@ def get_stabnderdized_total_long_term_liabilities_data(database_data,data):
                     col1_lease_liabilities = col1_lease_liabilities.replace(",", "")
                 if "," in col2_lease_liabilities:
                     col2_lease_liabilities = col2_lease_liabilities.replace(",", "")
+                if ("(") in col1_lease_liabilities:
+                    col1_lease_liabilities = col1_lease_liabilities.replace("(", "")
+                if (")") in col1_lease_liabilities:
+                    col1_lease_liabilities = col1_lease_liabilities.replace(")", "")
+                if ("(") in col2_lease_liabilities:
+                    col2_lease_liabilities = col2_lease_liabilities.replace("(", "")
+                if (")") in col2_lease_liabilities:
+                    col2_lease_liabilities = col2_lease_liabilities.replace(")", "")
 
             print("Column 1 Lease Liabilities after filtration is:", col1_lease_liabilities)
             print("Column 2 Lease Liabilities after filtration is:", col2_lease_liabilities)
@@ -3067,6 +3370,14 @@ def get_stabnderdized_total_long_term_liabilities_data(database_data,data):
                     col1_long_term_debt = col1_long_term_debt.replace(",", "")
                 if "," in col2_long_term_debt:
                     col2_long_term_debt = col2_long_term_debt.replace(",", "")
+                if ("(") in col1_long_term_debt:
+                    col1_long_term_debt = col1_long_term_debt.replace("(", "")
+                if (")") in col1_long_term_debt:
+                    col1_long_term_debt = col1_long_term_debt.replace(")", "")
+                if ("(") in col2_long_term_debt:
+                    col2_long_term_debt = col2_long_term_debt.replace("(", "")
+                if (")") in col2_long_term_debt:
+                    col2_long_term_debt = col2_long_term_debt.replace(")", "")
 
             print("Column 1 Long Term Debt after filtration is:", col1_long_term_debt)
             print("Column 2 Long Term Debt after filtration is:", col2_long_term_debt)
@@ -3141,6 +3452,14 @@ def get_stabnderdized_total_long_term_liabilities_data(database_data,data):
                     col1_pension_liabilities = col1_pension_liabilities.replace(",", "")
                 if "," in col2_pension_liabilities:
                     col2_pension_liabilities = col2_pension_liabilities.replace(",", "")
+                if ("(") in col1_pension_liabilities:
+                    col1_pension_liabilities = col1_pension_liabilities.replace("(", "")
+                if (")") in col1_pension_liabilities:
+                    col1_pension_liabilities = col1_pension_liabilities.replace(")", "")
+                if ("(") in col2_pension_liabilities:
+                    col2_pension_liabilities = col2_pension_liabilities.replace("(", "")
+                if (")") in col2_pension_liabilities:
+                    col2_pension_liabilities = col2_pension_liabilities.replace(")", "")
 
             print("Column 1 Pension Liabilities after filtration is:", col1_pension_liabilities)
             print("Column 2 Pension Liabilities after filtration is:", col2_pension_liabilities)
@@ -3217,7 +3536,14 @@ def get_stabnderdized_total_long_term_liabilities_data(database_data,data):
                     col1_deferred_income_tax_liability = col1_deferred_income_tax_liability.replace(",", "")
                 if "," in col2_deferred_income_tax_liability:
                     col2_deferred_income_tax_liability = col2_deferred_income_tax_liability.replace(",", "")
-
+                if ("(") in col1_deferred_income_tax_liability:
+                    col1_deferred_income_tax_liability = col1_deferred_income_tax_liability.replace("(", "")
+                if (")") in col1_deferred_income_tax_liability:
+                    col1_deferred_income_tax_liability = col1_deferred_income_tax_liability.replace(")", "")
+                if ("(") in col2_deferred_income_tax_liability:
+                    col2_deferred_income_tax_liability = col2_deferred_income_tax_liability.replace("(", "")
+                if (")") in col2_deferred_income_tax_liability:
+                    col2_deferred_income_tax_liability = col2_deferred_income_tax_liability.replace(")", "")
             print("Column 1 Deferred Income Tax Liability after filtration is:", col1_deferred_income_tax_liability)
             print("Column 2 Deferred Income Tax Liability after filtration is:", col2_deferred_income_tax_liability)
             deferred_income_tax_liability_col1.append(int(col1_deferred_income_tax_liability))
@@ -3292,7 +3618,14 @@ def get_stabnderdized_total_long_term_liabilities_data(database_data,data):
                     col1_long_term_tax_liabilities = col1_long_term_tax_liabilities.replace(",", "")
                 if "," in col2_long_term_tax_liabilities:
                     col2_long_term_tax_liabilities = col2_long_term_tax_liabilities.replace(",", "")
-
+                if ("(") in col1_long_term_tax_liabilities:
+                    col1_long_term_tax_liabilities = col1_long_term_tax_liabilities.replace("(", "")
+                if (")") in col1_long_term_tax_liabilities:
+                    col1_long_term_tax_liabilities = col1_long_term_tax_liabilities.replace(")", "")
+                if ("(") in col2_long_term_tax_liabilities:
+                    col2_long_term_tax_liabilities = col2_long_term_tax_liabilities.replace("(", "")
+                if (")") in col2_long_term_tax_liabilities:
+                    col2_long_term_tax_liabilities = col2_long_term_tax_liabilities.replace(")", "")
             print("Column 1 long_term_tax_liabilities after filtration is:", col1_long_term_tax_liabilities)
             print("Column 2 long_term_tax_liabilities after filtration is:", col2_long_term_tax_liabilities)
             long_term_tax_liabilities_col1.append(int(col1_long_term_tax_liabilities))
@@ -3367,7 +3700,14 @@ def get_stabnderdized_total_long_term_liabilities_data(database_data,data):
                     col1_other_noncurrent_liability = col1_other_noncurrent_liability.replace(",", "")
                 if "," in col2_other_noncurrent_liability:
                     col2_other_noncurrent_liability = col2_other_noncurrent_liability.replace(",", "")
-                
+                if ("(") in col1_other_noncurrent_liability:
+                    col1_other_noncurrent_liability = col1_other_noncurrent_liability.replace("(", "")
+                if (")") in col1_other_noncurrent_liability:
+                    col1_other_noncurrent_liability = col1_other_noncurrent_liability.replace(")", "")
+                if ("(") in col2_other_noncurrent_liability:
+                    col2_other_noncurrent_liability = col2_other_noncurrent_liability.replace("(", "")
+                if (")") in col2_other_noncurrent_liability:
+                    col2_other_noncurrent_liability = col2_other_noncurrent_liability.replace(")", "")
             print("Column 1 Other noncurrent liability after filtration is:", col1_other_noncurrent_liability)
             print("Column 2 Other noncurrent liability after filtration is:", col2_other_noncurrent_liability)
             other_noncurrent_liabilities_col1.append(int(col1_other_noncurrent_liability))
@@ -3442,7 +3782,14 @@ def get_stabnderdized_total_long_term_liabilities_data(database_data,data):
                     col1_total_liability = col1_total_liability.replace(",", "")
                 if "," in col2_total_liability:
                     col2_total_liability = col2_total_liability.replace(",", "")
-
+                if ("(") in col1_total_liability:
+                    col1_total_liability = col1_total_liability.replace("(", "")
+                if (")") in col1_total_liability:
+                    col1_total_liability = col1_total_liability.replace(")", "")
+                if ("(") in col2_total_liability:
+                    col2_total_liability = col2_total_liability.replace("(", "")
+                if (")") in col2_total_liability:
+                    col2_total_liability = col2_total_liability.replace(")", "")
             print("Column 1 total_liability after filtration is:", col1_total_liability)
             print("Column 2 total_liability after filtration is:", col2_total_liability)
             total_liabilities_col1.append(int(col1_total_liability))
@@ -3605,7 +3952,14 @@ def get_redeemable_noncontrolling_interest(database_data,data):
                     col1_redeemable_noncontrolling_interest = col1_redeemable_noncontrolling_interest.replace(",", "")
                 if "," in col2_redeemable_noncontrolling_interest:
                     col2_redeemable_noncontrolling_interest = col2_redeemable_noncontrolling_interest.replace(",", "")
-
+                if ("(") in col1_redeemable_noncontrolling_interest:
+                    col1_redeemable_noncontrolling_interest = col1_redeemable_noncontrolling_interest.replace("(", "")
+                if (")") in col1_redeemable_noncontrolling_interest:
+                    col1_redeemable_noncontrolling_interest = col1_redeemable_noncontrolling_interest.replace(")", "")
+                if ("(") in col2_redeemable_noncontrolling_interest:
+                    col2_redeemable_noncontrolling_interest = col1_redeemable_noncontrolling_interest.replace("(", "")
+                if (")") in col2_redeemable_noncontrolling_interest:
+                    col2_redeemable_noncontrolling_interest = col2_redeemable_noncontrolling_interest.replace(")", "")
             print("Column 1 redeemable_noncontrolling_interest after filtration is:", col1_redeemable_noncontrolling_interest)
             print("Column 2 redeemable_noncontrolling_interest after filtration is:", col2_redeemable_noncontrolling_interest)
             redeemable_noncontrolling_interest_col1.append(int(col1_redeemable_noncontrolling_interest))
@@ -3684,6 +4038,14 @@ def get_total_equity(database_data,data):
                     col1_total_equity = col1_total_equity.replace(",", "")
                 if "," in col2_total_equity:
                     col2_total_equity = col2_total_equity.replace(",", "")
+                if ("(") in col1_total_equity:
+                    col1_total_equity = col1_total_equity.replace("(", "")
+                if (")") in col1_total_equity:
+                    col1_total_equity = col1_total_equity.replace(")", "")
+                if ("(") in col2_total_equity:
+                    col2_total_equity = col2_total_equity.replace("(", "")
+                if (")") in col2_total_equity:
+                    col2_total_equity = col2_total_equity.replace(")", "")
 
             print("Column 1 total_equity after filtration is:", col1_total_equity)
             print("Column 2 total_equity after filtration is:", col2_total_equity)
@@ -3761,7 +4123,14 @@ def get_total_liabilities_redeemable_noncontrolling_interest_and_equity(database
                     col1_total_liabilities_redeemable_noncontrolling_interest_and_equity = col1_total_liabilities_redeemable_noncontrolling_interest_and_equity.replace(",", "")
                 if "," in col2_total_liabilities_redeemable_noncontrolling_interest_and_equity:
                     col2_total_liabilities_redeemable_noncontrolling_interest_and_equity = col2_total_liabilities_redeemable_noncontrolling_interest_and_equity.replace(",", "")
-
+                if ("(") in col1_total_liabilities_redeemable_noncontrolling_interest_and_equity:
+                    col1_total_liabilities_redeemable_noncontrolling_interest_and_equity = col1_total_liabilities_redeemable_noncontrolling_interest_and_equity.replace("(", "")
+                if (")") in col1_total_liabilities_redeemable_noncontrolling_interest_and_equity:
+                    col1_total_liabilities_redeemable_noncontrolling_interest_and_equity = col1_total_liabilities_redeemable_noncontrolling_interest_and_equity.replace(")", "")
+                if ("(") in col2_total_liabilities_redeemable_noncontrolling_interest_and_equity:
+                    col2_total_liabilities_redeemable_noncontrolling_interest_and_equity = col2_total_liabilities_redeemable_noncontrolling_interest_and_equity.replace("(", "")
+                if (")") in col2_total_liabilities_redeemable_noncontrolling_interest_and_equity:
+                    col2_total_liabilities_redeemable_noncontrolling_interest_and_equity = col2_total_liabilities_redeemable_noncontrolling_interest_and_equity.replace(")", "")
             print("Column 1 total_liabilities_redeemable_noncontrolling_interest_and_equity after filtration is:", col1_total_liabilities_redeemable_noncontrolling_interest_and_equity)
             print("Column 2 total_liabilities_redeemable_noncontrolling_interest_and_equity after filtration is:", col2_total_liabilities_redeemable_noncontrolling_interest_and_equity)
             total_liabilities_redeemable_noncontrolling_interest_and_equity_col1.append(int(col1_total_liabilities_redeemable_noncontrolling_interest_and_equity))
@@ -4055,9 +4424,9 @@ if (st.button(label = f'Download {ticker_name} Data from SEC and Perform Stander
 
 if extraction_flag == 1:
     st.header("Balance Sheet Data:")
-    st.dataframe(balance_sheet_data_to_return_original)
+    st.dataframe(balance_sheet_data_to_return_original,hide_index = True)
     st.header("Standerdized Balance Sheet Data:")
-    st.dataframe(standerdised_ticker_data_full_and_final)        
+    st.dataframe(standerdised_ticker_data_full_and_final,hide_index = True)        
     csv_original = convert_df(balance_sheet_data_to_return_original)
     csv_standerdized = convert_df(standerdised_ticker_data_full_and_final)
 
@@ -6925,90 +7294,156 @@ long_term_liabilities_breakdown.drop(["index"], axis = 1, inplace = True)
 long_term_liabilities_breakdown.drop_duplicates(inplace = True)
 
 
-st.header(":blue[CURRENT ASSETS BREAKDOWN VIEW]")
-st.markdown(
-    '''
-    <style>
-    .streamlit-expanderHeader {
-        background-color: white;
-        color: black; # Adjust this for expander header color
-    }
-    .streamlit-expanderContent {
-        background-color: white;
-        color: black; # Expander content color
-    }
-    </style>
-    ''',
-    unsafe_allow_html=True
-)
+
 #current_assets_standerdized_for_breakdown = get_stabnderdized_total_current_assets_data(database_data,reference_bs_data)
-with st.expander("Current Assets Breakdown"):
-    st.dataframe(standerdised_ticker_data_full_and_final.iloc[0:11,:].to_dict())
 
-with st.expander("Cash And Marketable Securities Breakdown"):
-    st.dataframe(cash_and_market_data_breakdown.to_dict())
-accounts_trade_receivables_breakdown_data =pd.concat([
-                        accounts_data_breakdown,
-                        other_recievables_data_breakdown], axis = 0)
-accounts_trade_receivables_breakdown_data = accounts_trade_receivables_breakdown_data.reset_index()
-accounts_trade_receivables_breakdown_data.drop(["index"], axis = 1, inplace = True)
-accounts_trade_receivables_breakdown_data.drop_duplicates(inplace = True)
-with st.expander("Accounts/Trade Receivables Breakdown"):
-    st.dataframe(accounts_trade_receivables_breakdown_data.to_dict())
-other_current_assets_breakdown = pd.concat([prepaid_expences_data_breakdown], axis = 0)
-other_current_assets_breakdown = other_current_assets_breakdown.reset_index()
-other_current_assets_breakdown.drop(["index"], axis = 1, inplace = True)
-other_current_assets_breakdown.drop_duplicates(inplace = True)
-with st.expander("Other Current Assets"):
-    st.dataframe(other_current_assets_breakdown.to_dict())
+# st.markdown(
+#     '''
+#     <style>
+#     .streamlit-expanderHeader {
+#         background-color: red;
+#         color: black; # Adjust this for expander header color
+#     }
+#     .streamlit-expanderContent {
+#         background-color: white;
+#         color: black; # Expander content color
+#     }
+#     </style>
+#     ''',
+#     unsafe_allow_html=True
+# )
+
+tab_titles = ['Current Assets', 'Long Term Assets', 'Current Liabilities', 'Long Term Liabilities']
+tab1, tab2, tab3, tab4 = st.tabs(tab_titles)
+
+
+with tab1:
+    st.header(":blue[CURRENT ASSETS BREAKDOWN VIEW]")
+    st.markdown(
+        '''
+        <style>
+        .streamlit-expanderHeader {
+            background-color: white;
+            color: black; # Adjust this for expander header color
+        }
+        .streamlit-expanderContent {
+            background-color: white;
+            color: black; # Expander content color
+        }
+        </style>
+        ''',
+        unsafe_allow_html=True
+    )
+    # st.header('Topic A')
+    # st.write('Topic A content')
+    # col1, col2 = st.columns([0.95, 0.4])
+    # with col1:
+    with tab1:
+        with st.expander("Current Assets Breakdown"):
+            st.dataframe(standerdised_ticker_data_full_and_final.iloc[0:11,:].to_dict())
+        
+        with st.sidebar:
+            with st.expander("Cash And Marketable Securities Breakdown"):
+                st.dataframe(cash_and_market_data_breakdown.to_dict())
+                
+        accounts_trade_receivables_breakdown_data =pd.concat([accounts_data_breakdown,
+                                                                other_recievables_data_breakdown], axis = 0)
+        accounts_trade_receivables_breakdown_data = accounts_trade_receivables_breakdown_data.reset_index()
+        accounts_trade_receivables_breakdown_data.drop(["index"], axis = 1, inplace = True)
+        accounts_trade_receivables_breakdown_data.drop_duplicates(inplace = True)
+            
+        with st.sidebar:
+            with st.expander("Accounts/Trade Receivables Breakdown"):
+                st.dataframe(accounts_trade_receivables_breakdown_data.to_dict())
+        
+        other_current_assets_breakdown = pd.concat([prepaid_expences_data_breakdown], axis = 0)
+        other_current_assets_breakdown = other_current_assets_breakdown.reset_index()
+        other_current_assets_breakdown.drop(["index"], axis = 1, inplace = True)
+        other_current_assets_breakdown.drop_duplicates(inplace = True)
+            
+        with st.sidebar:
+            with st.expander("Other Current Assets"):
+                st.dataframe(other_current_assets_breakdown.to_dict())
+        
+with tab2:
+    st.header(":blue[LONG TERM ASSETS BREAKDOWN VIEW]")
+    with st.expander("Long Term Assets Breakdown"):
+        st.dataframe(standerdised_ticker_data_full_and_final.iloc[11:23,:].to_dict())
+
+    intangable_assets_breakdown = pd.concat([goodwill_data_breakdown,
+                                            Indefinite_lived_and_amortizable_intangible_assets_data_breakdown],
+                                            axis = 0)
+    intangable_assets_breakdown = intangable_assets_breakdown.reset_index()
+    intangable_assets_breakdown.drop(["index"], axis = 1, inplace = True)
+    intangable_assets_breakdown.drop_duplicates(inplace = True)
+    with st.sidebar:
+        with st.expander("Intangible Assets	Breakdown"):
+            st.dataframe(intangable_assets_breakdown.to_dict())
+            
+
+        other_assets_breakdown_view = pd.concat([deferred_income_taxes_data_breakdown,
+                                                total_intangible_and_other_assets_data_breakdown],
+                                                axis = 0)
+        other_assets_breakdown_view = other_assets_breakdown_view.reset_index()
+        other_assets_breakdown_view.drop(["index"], axis = 1, inplace = True)
+        other_assets_breakdown_view.drop_duplicates(inplace = True)
+        with st.expander("Other Current Assets Breakdown"):
+            st.dataframe(other_assets_breakdown_view.to_dict())
+
+
+    
     
 
-st.header(":blue[LONG TERM ASSETS BREAKDOWN VIEW]")
-with st.expander("Long Term Assets Breakdown"):
-    st.dataframe(standerdised_ticker_data_full_and_final.iloc[11:23,:].to_dict())
+# with st.expander("Current Assets Breakdown"):
+#     st.dataframe(standerdised_ticker_data_full_and_final.iloc[0:11,:].to_dict())
 
-intangable_assets_breakdown = pd.concat([goodwill_data_breakdown,
-                                         Indefinite_lived_and_amortizable_intangible_assets_data_breakdown],
-                                        axis = 0)
-intangable_assets_breakdown = intangable_assets_breakdown.reset_index()
-intangable_assets_breakdown.drop(["index"], axis = 1, inplace = True)
-intangable_assets_breakdown.drop_duplicates(inplace = True)
-
-with st.expander("Intangible Assets	Breakdown"):
-    st.dataframe(intangable_assets_breakdown.to_dict())
+#     st.markdown(
+#     '''
+#     <style>
+#     .streamlit-expanderHeader {
+#         background-color: yellow;
+#         color: black; # Adjust this for expander header color
+#     }
+#     .streamlit-expanderContent {
+#         background-color: white;
+#         color: black; # Expander content color
+#     }
+#     </style>
+#     ''',
+#     unsafe_allow_html=True
+# )
     
 
-other_assets_breakdown_view = pd.concat([deferred_income_taxes_data_breakdown,
-                                         total_intangible_and_other_assets_data_breakdown],
-                                        axis = 0)
-other_assets_breakdown_view = other_assets_breakdown_view.reset_index()
-other_assets_breakdown_view.drop(["index"], axis = 1, inplace = True)
-other_assets_breakdown_view.drop_duplicates(inplace = True)
-with st.expander("Other Current Assets Breakdown"):
-    st.dataframe(other_assets_breakdown_view.to_dict())
 
-current_liabilities_breakdown_view = standerdised_ticker_data_full_and_final.iloc[27:34,:]
-current_liabilities_breakdown_view = current_liabilities_breakdown_view.reset_index()
-current_liabilities_breakdown_view.drop(["index"], axis = 1, inplace = True)
-st.header(":blue[CURRENT LIABILITIES BREAKDOWN VIEW]")
-with st.expander("CURRENT Liabilities Breakdown"):
-    st.dataframe(current_liabilities_breakdown_view.to_dict())
+# with col2:
     
-standerdised_ticker_data_full_and_final = standerdised_ticker_data_full_and_final.reset_index()
-standerdised_ticker_data_full_and_final.drop(["index"], axis = 1, inplace = True)
     
-st.header(":blue[LONG TERM LIABILITIES BREAKDOWN VIEW]")
-with st.expander("LONG TERM Liabilities Breakdown"):
-    st.dataframe(standerdised_ticker_data_full_and_final.iloc[34:40,:].to_dict())
+with tab3:
+    current_liabilities_breakdown_view = standerdised_ticker_data_full_and_final.iloc[27:34,:]
+    current_liabilities_breakdown_view = current_liabilities_breakdown_view.reset_index()
+    current_liabilities_breakdown_view.drop(["index"], axis = 1, inplace = True)
+    st.header(":blue[CURRENT LIABILITIES BREAKDOWN VIEW]")
+    with st.expander("CURRENT Liabilities Breakdown"):
+        st.dataframe(current_liabilities_breakdown_view.to_dict())
+        
+    standerdised_ticker_data_full_and_final = standerdised_ticker_data_full_and_final.reset_index()
+    standerdised_ticker_data_full_and_final.drop(["index"], axis = 1, inplace = True)
 
-other_noncurrent_liabilities_breakdown_view = pd.concat([long_term_tax_liabilities_data_breakdown,
-                                                         other_noncurrent_liabilities_data_breakdown],
-                                        axis = 0)
-other_noncurrent_liabilities_breakdown_view = other_noncurrent_liabilities_breakdown_view.reset_index()
-other_noncurrent_liabilities_breakdown_view.drop(["index"], axis = 1, inplace = True)
-other_noncurrent_liabilities_breakdown_view.drop_duplicates(inplace = True)
-with st.expander("Other Noncurrent Liabilities Breakdown"):
-    st.dataframe(other_noncurrent_liabilities_breakdown_view.to_dict())
+
+with tab4: 
+    st.header(":blue[LONG TERM LIABILITIES BREAKDOWN VIEW]")
+    with st.expander("LONG TERM Liabilities Breakdown"):
+        st.dataframe(standerdised_ticker_data_full_and_final.iloc[34:40,:].to_dict())
+
+    other_noncurrent_liabilities_breakdown_view = pd.concat([long_term_tax_liabilities_data_breakdown,
+                                                            other_noncurrent_liabilities_data_breakdown],
+                                            axis = 0)
+    other_noncurrent_liabilities_breakdown_view = other_noncurrent_liabilities_breakdown_view.reset_index()
+    other_noncurrent_liabilities_breakdown_view.drop(["index"], axis = 1, inplace = True)
+    other_noncurrent_liabilities_breakdown_view.drop_duplicates(inplace = True)
+    with st.sidebar:
+        with st.expander("Other Noncurrent Liabilities Breakdown"):
+            st.dataframe(other_noncurrent_liabilities_breakdown_view.to_dict(),  width=700, height=400)
 
 
 # with st.expander("Long Term Assets Breakdown"):
