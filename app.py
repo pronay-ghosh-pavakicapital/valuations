@@ -147,6 +147,8 @@ def scrape_latest_balance_sheet_and_standerdize_columns(
             if r.status_code != 200:
                 continue
             else:
+                if flag == 1:
+                    break
                 print("request successful for ", data_url)
                 dfs = pd.read_html(r.text)
                 mydata = dfs[0]
@@ -197,7 +199,8 @@ def scrape_latest_balance_sheet_and_standerdize_columns(
                                 print("Saving data...", mydata)
                                 mydata = mydata.fillna(0)
                                 mydata.to_csv(f"./original_data_folder/data.csv")
-
+                            if flag == 1:
+                                break
                             elif "($)  " in balance_keyword:
                                 print("[($)  ] found...")
                                 print("Checking for [  $]...")
@@ -209,8 +212,18 @@ def scrape_latest_balance_sheet_and_standerdize_columns(
                                     if flag == 1:
                                         mydata.to_csv("./original_data_folder/data.csv")
                                         break
-                                    break
+                                else:
+                                    print("Saving data...", mydata)
+                                    mydata = mydata.fillna(0)
+                                    mydata.to_csv("./original_data_folder/data.csv")
+                                    flag = 1
+                                    if flag == 1:
+                                        mydata.to_csv("./original_data_folder/data.csv")
+                                        break
 
+                                    break
+                            if flag == 1:
+                                break
                             elif "  $" in balance_keyword:
                                 print("Saving data...", mydata)
                                 mydata = mydata.fillna(0)
@@ -219,6 +232,8 @@ def scrape_latest_balance_sheet_and_standerdize_columns(
                                 if flag == 1:
                                     mydata.to_csv(f"./original_data_folder/data.csv")
                                     break
+                                break
+                            if flag == 1:
                                 break
                             else:
                                 print("No match found with ", balance_keyword)
